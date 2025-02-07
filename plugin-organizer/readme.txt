@@ -1,11 +1,11 @@
 === Plugin Organizer ===
 Contributors: foomagoo
-Donate link: https://www.sterupdesign.com/donate
-Tags: plugin organizer, load order, organize plugins, plugin order, sort plugin, group plugin, disable plugins by post, disable plugins by page, disable plugins by custom post type, turn off plugins for post, turn off plugins for page, turn off plugins for custom post type
+Donate link: https://www.sterup.com/donate/
+Tags: plugin organizer, plugin load order, disable plugins by post or page, turn off plugins for post or page
 Requires at least: 4.6.0
-Tested up to: 6.3.1
-Stable tag: 10.1.10
-
+Tested up to: 6.7.2
+Stable tag: 10.2
+License: GPLv2
 
 This plugin allows you to do the following:
 1. Change the order that your plugins are loaded.
@@ -30,11 +30,11 @@ WARNING: Reordering or disabling plugins can have catastrophic affects on your s
 
 IMPORTANT: To enable selective plugin loading you must move the /wp-content/plugins/plugin-organizer/lib/PluginOrganizerMU.class.php file to /wp-content/mu-plugins or wherever your mu-plugins folder is located.  If the mu-plugins directory does not exist you can create it.  The plugin will attempt to create this directory and move the file itself when activated.  Depending on your file permissions it may not be successful.
 
-Note: If you are having troubles you can view the documentation by going to https://www.sterupdesign.com/dev/wordpress/plugins/plugin-organizer/documentation/
+Note: If you are having troubles you can view the documentation by going to https://www.sterup.com/wordpress-plugins/plugin-organizer/documentation/
 
 == Frequently Asked Questions ==
 
-You can find a full FAQ list at https://www.sterupdesign.com/dev/wordpress/plugins/plugin-organizer/faq/
+You can find a full FAQ list at https://www.sterup.com/wordpress-plugins/plugin-organizer/faq/
 
 = Can Plugin Organizer be used with caching plugins? =
 
@@ -47,10 +47,6 @@ The above example explains how load time and caching can be affected with a cach
 Another example would be a caching plugin that creates a static version of pieces of the page. Again lets say we have the same plugins and the same posts. When someone visits http://www.yourdomainnameyouuse.com/post-1/ static pages are created with the content from plugins A and C. This cache has a lifetime of 300 seconds for example. When someone visits http://www.yourdomainnameyouuse.com/post-2/ it has the content for plugins A and C but it is missing Plugins B and D because the cache hasn’t expired. This can cause unexpected content and errors.
 
 There are different ways that caching plugins work and they can work together with Plugin Organizer. These are only 2 examples to give an idea. But you have to understand how they work and how you are affecting your cache by disabling plugins.
-
-= Are there any known conflicts with other plugins? =
-
-Yes.  A malicious plugin named WP Spamshield targets the settings used by Plugin Organizer to disable it.  It also targets various other plugins and changes how they behave or disables them entirely.  All of this is done without the users knowledge or consent.  This plugin was removed from the Wordpress Plugin Directory because of this malicious code but it may still exist on some users sites.  It will also likely be released from a different repository in the future and start targeting plugins again.  You should remove WP Spamshield not only to make sure that Plugin Organizer runs correctly but to ensure the security of your website is not compromised.  Find out more at https://www.sterupdesign.com/blog/malware/wp-spamshield/.
 
 = How do I disable plugins on the WordPress admin? =
 
@@ -84,15 +80,15 @@ Example 1: If you have a large number of plugins and don't want them all to load
 Example 2: If you have plugins that conflict with eachother then you can disable the plugins that are conflicting for each indivdual post or page.
 Example 3: If you have plugins that conflict with eachother then you can disable the plugins globally and activate them only on posts or pages where they will be used.
 
-Note: If you are having troubles you can view the documentation by going to https://www.sterupdesign.com/dev/wordpress/plugins/plugin-organizer/documentation/
+Note: If you are having troubles you can view the documentation by going to https://www.sterup.com/wordpress-plugins/plugin-organizer/documentation/
 
 = How do I target the homepage of my site if it isn't a page post type? =
 
-Create a plugin filter with your home page url. Like https://www.sterupdesign.com/. Then enable or disable the plugins you want with that filter.
+Create a plugin filter with your home page url. Like https://www.sterup.com/. Then enable or disable the plugins you want with that filter.
 
 = Can I use wildcards in a plugin filter permalink? =
 
-Yes. You can use limited wildcards in the permalink structure. For instance you can match the url https://www.sterupdesign.com/some/pretty/permalink/ by entering https://www.sterupdesign.com/some/*/permalink/. You can also match the url by entering https://www.sterupdesign.com/*/pretty/permalink/ as the permalink. The only character that is recognized is the * character. It can only replace one piece of the url in between the / characters.
+Yes. You can use limited wildcards in the permalink structure. For instance you can match the url https://www.sterup.com/some/pretty/permalink/ by entering https://www.sterup.com/some/*/permalink/. You can also match the url by entering https://www.sterup.com/*/pretty/permalink/ as the permalink. The only character that is recognized is the * character. It can only replace one piece of the url in between the / characters.
 
 = Can I enable/disable plugins based on post type? =
 
@@ -100,7 +96,7 @@ Yes. Go to the Post Type Plugins page under Plugin Organizer in the admin menu. 
 
 = How do I disable a plugin on the front end and still have it enabled on the admin pages? =
 
-To load a plugin only in the admin you need to enable selective plugin loading for the admin areas and fuzzy url matching. Then globally disable the plugin you want to turn off on the front end. Next create a plugin filter with the permalink set to your admin url. Like https://www.sterupdesign.com/wp-admin/. Then enable the plugin for that plugin filter and select also affect children. Now the plugin should only be loaded in the admin.
+To load a plugin only in the admin you need to enable selective plugin loading for the admin areas and fuzzy url matching. Then globally disable the plugin you want to turn off on the front end. Next create a plugin filter with the permalink set to your admin url. Like https://www.sterup.com/wp-admin/. Then enable the plugin for that plugin filter and select also affect children. Now the plugin should only be loaded in the admin.
 
 = Can I disable plugins by role? =
 
@@ -126,6 +122,10 @@ https://wordpress.org/support/topic/conflict-with-contact-form-7-4/
 6. Page edit screen.
 
 == Changelog ==
+
+= 10.2 =
+Updating URLs in readme to point to new site.
+Bumped tested version of Wordpress
 
 = 10.1.10 =
 Fixed PHP warning about array offset when the database returns a bad result in MU plugin
@@ -795,5 +795,6 @@ Initial version.
 
 == Upgrade Notice ==
 
-= 10.1.10 =
-Fixed PHP warning about array offset when the database returns a bad result in MU plugin
+= 10.2 =
+Updating URLs in readme to point to new site.
+Bumped tested version of Wordpress
