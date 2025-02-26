@@ -84,6 +84,10 @@ class PO_Template {
 			$sql = "SELECT disabled_plugins, disabled_mobile_plugins, disabled_groups, disabled_mobile_groups FROM ".$wpdb->prefix."po_plugins WHERE post_type='global_plugin_lists' AND post_id=0";
 			$storedPluginLists = $wpdb->get_row($sql, ARRAY_A);
 			
+			if ($storedPluginLists == null) {
+				$storedPluginLists = array('disabled_plugins'=>'', 'disabled_mobile_plugins'=>'', 'disabled_groups'=>'', 'disabled_mobile_groups'=>'');
+			}
+			
 			$globalPlugins = (is_array(@unserialize($storedPluginLists['disabled_plugins'])))? @unserialize($storedPluginLists['disabled_plugins']):array();
 			$globalMobilePlugins = (is_array(@unserialize($storedPluginLists['disabled_mobile_plugins'])))? @unserialize($storedPluginLists['disabled_mobile_plugins']):array();
 			$globalGroups = (is_array(@unserialize($storedPluginLists['disabled_groups'])))? @unserialize($storedPluginLists['disabled_groups']):array();
@@ -122,6 +126,10 @@ class PO_Template {
 			$sql = "SELECT disabled_plugins, disabled_mobile_plugins, disabled_groups, disabled_mobile_groups FROM ".$wpdb->prefix."po_plugins WHERE post_type='global_plugin_lists' AND post_id=0";
 			$storedPluginLists = $wpdb->get_row($sql, ARRAY_A);
 			
+			if ($storedPluginLists == null) {
+				$storedPluginLists = array('disabled_plugins'=>'', 'disabled_mobile_plugins'=>'', 'disabled_groups'=>'', 'disabled_mobile_groups'=>'');
+			}
+			
 			$globalPlugins = (is_array(@unserialize($storedPluginLists['disabled_plugins'])))? @unserialize($storedPluginLists['disabled_plugins']):array();
 			$globalMobilePlugins = (is_array(@unserialize($storedPluginLists['disabled_mobile_plugins'])))? @unserialize($storedPluginLists['disabled_mobile_plugins']):array();
 			$globalGroups = (is_array(@unserialize($storedPluginLists['disabled_groups'])))? @unserialize($storedPluginLists['disabled_groups']):array();
@@ -145,6 +153,9 @@ class PO_Template {
 			$sql = "SELECT disabled_plugins, disabled_mobile_plugins, disabled_groups, disabled_mobile_groups FROM ".$wpdb->prefix."po_plugins WHERE post_type='global_plugin_lists' AND post_id=0";
 			$storedPluginLists = $wpdb->get_row($sql, ARRAY_A);
 			
+			if ($storedPluginLists == null) {
+				$storedPluginLists = array('disabled_plugins'=>'', 'disabled_mobile_plugins'=>'', 'disabled_groups'=>'', 'disabled_mobile_groups'=>'');
+			}
 			$pluginLists = array('_'=>array(
 				'enabled_plugin_list'=>array(),
 				'disabled_plugin_list'=>(is_array(@unserialize($storedPluginLists['disabled_plugins'])))? @unserialize($storedPluginLists['disabled_plugins']):array(),

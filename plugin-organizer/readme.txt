@@ -4,7 +4,7 @@ Donate link: https://www.sterup.com/donate/
 Tags: plugin organizer, plugin load order, disable plugins by post or page, turn off plugins for post or page
 Requires at least: 4.6.0
 Tested up to: 6.7.2
-Stable tag: 10.2
+Stable tag: 10.2.1
 License: GPLv2
 
 This plugin allows you to do the following:
@@ -122,6 +122,10 @@ https://wordpress.org/support/topic/conflict-with-contact-form-7-4/
 6. Page edit screen.
 
 == Changelog ==
+
+= 10.2.1 =
+Replacing missing PO-admn-global.css file that was missing from last update
+Fixing deprecation warning on global plugins page if no global plugins are set.
 
 = 10.2 =
 Updating URLs in readme to point to new site.
@@ -795,6 +799,6 @@ Initial version.
 
 == Upgrade Notice ==
 
-= 10.2 =
-Updating URLs in readme to point to new site.
-Bumped tested version of Wordpress
+= 10.2.1 =
+Replacing missing PO-admn-global.css file that was missing from last update
+Fixing deprecation warning on global plugins page if no global plugins are set.

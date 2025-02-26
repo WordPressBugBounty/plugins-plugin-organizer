@@ -3,7 +3,7 @@
 Plugin Name: Plugin Organizer MU
 Plugin URI: https://www.sterup.com/wordpress-plugins/plugin-organizer/
 Description: A plugin for specifying the load order of your plugins.
-Version: 10.2
+Version: 10.2.1
 Author: Jeff Sterup
 Author URI: https://www.sterup.com
 License: GPL2
@@ -79,9 +79,9 @@ class PluginOrganizerMU {
 			}
 			
 			$this->set_requested_permalink();
-			if (get_option('PO_updating_plugin') != '1' && get_option("PO_version_num") != "10.2") {
+			if (get_option('PO_updating_plugin') != '1' && get_option("PO_version_num") != "10.2.1") {
 				$newPluginList = $pluginList;
-				$this->adminMsg[] = '<strong>WARNING:</strong> Selective plugin loading for Plugin Organizer has been disabled because the version numbers of the MU plugin and the standard plugin don\'t match.<br />The current version number returned from the database is '.get_option("PO_version_num").' and the current MU plugin version number is 10.2.<br />If you are using a caching plugin try clearing the cache.';
+				$this->adminMsg[] = '<strong>WARNING:</strong> Selective plugin loading for Plugin Organizer has been disabled because the version numbers of the MU plugin and the standard plugin don\'t match.<br />The current version number returned from the database is '.get_option("PO_version_num").' and the current MU plugin version number is 10.2.1.<br />If you are using a caching plugin try clearing the cache.';
 			} else {
 				$sql = "SELECT disabled_plugins, disabled_mobile_plugins, disabled_groups, disabled_mobile_groups FROM ".$wpdb->prefix."po_plugins WHERE post_type='global_plugin_lists' AND post_id=0";
 				$storedPluginLists = $wpdb->get_row($sql, ARRAY_A);
