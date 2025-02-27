@@ -325,7 +325,7 @@ class PluginOrganizer {
 	function check_version() {
 		global $pagenow;
 		##Check version and activate if needed.
-		if (get_option("PO_version_num") != "10.2.1" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
+		if (get_option("PO_version_num") != "10.2.2" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
 			$this->activate();
 		}
 	}
@@ -640,8 +640,8 @@ class PluginOrganizer {
 			update_option('PO_disable_plugins_frontend', 1);
 		}
 		
-		if (get_option("PO_version_num") != "10.2.1") {
-			update_option("PO_version_num", "10.2.1");
+		if (get_option("PO_version_num") != "10.2.2") {
+			update_option("PO_version_num", "10.2.2");
 		}
 
 		if (get_option('PO_disable_plugins_by_role') == "") {
@@ -1784,7 +1784,10 @@ class PluginOrganizer {
 		$pluginOrder = get_option("PO_saved_plugin_order", array());
 		
 		if (is_array($pluginOrder) && count($pluginOrder) > 0) {
-			$missingPlugins = array_diff($plugins, $pluginOrder);
+			$missingActivePlugins = array_diff($plugins, $pluginOrder);
+			$missingInactivePlugins = array_diff($pluginOrder, $plugins);
+			$missingPlugins = array_merge($missingActivePlugins, $missingInactivePlugins);
+			
 			if (count($missingPlugins) > 0) {
 				$networkPluginOrder = array();
 				$sitePluginOrder = array();
