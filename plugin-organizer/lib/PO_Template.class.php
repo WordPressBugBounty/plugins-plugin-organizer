@@ -47,6 +47,9 @@ class PO_Template {
 
 	function settings_page() {
 		if ( current_user_can( 'activate_plugins' ) ) {
+			if (isset($_GET['PO_disable_debug_msg']) && $this->PO->verify_nonce($_GET['PO_nonce'])) {
+				update_option('PO_display_debug_msg', 0);
+			}
 			$installedPlugins = get_plugins();
 			require_once($this->PO->absPath . "/tpl/settings.php");
 		} else {

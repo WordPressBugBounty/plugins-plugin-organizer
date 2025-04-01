@@ -48,7 +48,6 @@ if (isset($post) && in_array(get_post_type($post->ID), $ptStored)) {
 <div id="PO-post-meta-box-wrapper" class="PO-content-wrap">
 	<?php
 	do_action('PO_display_meta_compatibility', 1);
-	do_action('PO_display_meta_debug', 1);
 	if ($adminPage != 'PO_search_plugins' && $adminPage != 'PO_global_plugins') { ?>
 		<?php if(isset($post) && get_post_type($post->ID) == 'plugin_filter') { ?>
 			<div class="metaBoxLabel">

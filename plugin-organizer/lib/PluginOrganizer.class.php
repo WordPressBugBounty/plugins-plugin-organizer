@@ -61,7 +61,7 @@ class PluginOrganizer {
 			if (get_option('PO_disable_compat_notices') != '1') {
 				add_action('admin_notices', array($this, 'compatibility_notices'), 1);
 			}
-			add_action('admin_notices', array($this, 'display_admin_debug'));
+			add_action('admin_footer', array($this, 'display_debug_msg'), 100);
 			add_action('admin_init', array($this, 'register_admin_style'));
 			add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_style'));
 			add_action('init', array($this, 'init'));
@@ -119,15 +119,13 @@ class PluginOrganizer {
 			add_action('wp_ajax_PO_disable_admin_notices', array($this->ajax, 'disable_admin_notices'));
 			add_action('wp_ajax_PO_disable_compat_notices', array($this->ajax, 'disable_compat_notices'));
 			add_action('wp_ajax_PO_disable_admin_warning', array($this->ajax, 'disable_admin_warning'));
-			add_action('wp_ajax_PO_disable_debug_msg', array($this->ajax, 'disable_debug_msg'));
-			add_action('wp_ajax_PO_submit_custom_css_settings', array($this->ajax, 'submit_custom_css_settings'));
 			add_action('wp_ajax_PO_reset_post_settings', array($this->ajax, 'reset_post_settings'));
 			add_action('wp_ajax_PO_submit_gen_settings', array($this->ajax, 'save_gen_settings'));
 			add_action('wp_ajax_PO_get_plugin_group_container', array($this->ajax, 'get_plugin_group_container'));
 			add_action('wp_ajax_PO_get_group_list', array($this->ajax, 'get_group_list'));
 			add_action('wp_ajax_PO_perform_plugin_search', array($this->ajax, 'perform_plugin_search'));
 		} else {
-			add_action('get_footer', array($this, 'display_footer_debug'), 100);
+			add_action('wp_footer', array($this, 'display_debug_msg'), 100);
 		}
 	}
 
@@ -185,71 +183,13 @@ class PluginOrganizer {
 	
 	function get_custom_meta_links($meta, $file) {
 		if ($this->pluginBase == $file) {
-			$meta[] = '<a href="http://www.sterupdesign.com/dev/wordpress/plugins/plugin-organizer/documentation/" target="_blank">Documentation</a>';
-			$meta[] = '<a href="http://www.sterupdesign.com/dev/wordpress/plugins/plugin-organizer/faq/" target="_blank">FAQ</a>';
+			$meta[] = '<a href="https://www.sterup.com/wordpress-plugins/plugin-organizer/documentation/" target="_blank">Documentation</a>';
+			$meta[] = '<a href="https://www.sterup.com/wordpress-plugins/plugin-organizer/faq/" target="_blank">FAQ</a>';
 		}
 		return $meta;
 	}
 
-	function display_admin_debug($calledFromMeta=0) {
-		if (get_option('PO_display_debug_msg') == 1) {
-			global $pagenow, $PluginOrganizerMU;
-			if ($calledFromMeta != 1 && in_array($pagenow, array('post.php', 'post-new.php'))) {
-				add_action('PO_display_meta_debug', array($this, 'display_admin_debug'));
-			}
-			$debugRoles = get_option("PO_debug_roles");
-			if (!is_array($debugRoles)) {
-				$debugRoles = array('administrator');
-			}
-			
-			$roles = array();
-			if (is_user_logged_in()) {
-				$user = wp_get_current_user();
-				$roles[] = '-';
-				foreach($user->roles as $role) {
-					$roles[] = $role;
-				}
-			} else {
-				$roles[] = '_';
-			}
-			if (array_diff($debugRoles, $roles) !== $debugRoles && get_class($PluginOrganizerMU) == 'PluginOrganizerMU' && sizeof($PluginOrganizerMU->debugMsg) > 0) {
-				if ($calledFromMeta == 1) {
-					?>
-					<style type="text/css">
-						.PO-debug-header {display:none;}
-					</style>
-					<?php
-				}
-				?>
-				<div class="notice notice-warning PO-debug-msg-container <?php print ($calledFromMeta != 1)? 'PO-debug-header':''; ?>" style="<?php print (isset($POAdminStyles['admin_debug_style']))? $POAdminStyles['admin_debug_style'] : 'padding: 20px;'; ?>">
-					<div style="font-weight: bold;margin-bottom:10px;">Plugin Organizer Debug Messages</div>
-					<hr>
-					<?php
-					foreach($PluginOrganizerMU->debugMsg as $debugMsg) {
-						print '<div>'.$debugMsg.'</div>';
-					}
-					
-					if (current_user_can('activate_plugins')) {
-						?>
-						<a href="#" class="PO-disable-debug-msg">Disable Debug Messages</a>
-						<script type="text/javascript" language="javascript">
-							jQuery('.PO-disable-debug-msg').click(function() {
-								jQuery.post(encodeURI(ajaxurl + '?action=PO_disable_debug_msg'), {PO_nonce: '<?php print $this->nonce; ?>'}, function (result) {
-									jQuery('.PO-debug-msg-container').remove();
-								});
-								return false;
-							});
-						</script>
-						<?php
-					}
-					?>
-				</div>
-				<?php
-			}
-		}
-	}
-	
-	function display_footer_debug() {
+	function display_debug_msg() {
 		if (get_option('PO_display_debug_msg') == 1) {
 			global $PluginOrganizerMU;
 			$debugRoles = get_option("PO_debug_roles");
@@ -268,37 +208,17 @@ class PluginOrganizer {
 				$roles[] = '_';
 			}
 			if (array_diff($debugRoles, $roles) !== $debugRoles && get_class($PluginOrganizerMU) == 'PluginOrganizerMU' && sizeof($PluginOrganizerMU->debugMsg) > 0) {
-				$POAdminStyles = get_option('PO_custom_css');
+				$debugMsg = "-- BEGIN PLUGIN ORGANIZER DEBUG MESSAGES --\\n\\";
+				$debugMsg .= implode("\\n\\", $PluginOrganizerMU->debugMsg);
+				$debugMsg .= "\\n\\-- END PLUGIN ORGANIZER DEBUG MESSAGES --\\n\\";
+				if (current_user_can('activate_plugins')) {
+					$debugMsg .= "-- To disable these message go to: ".admin_url('admin.php')."?page=Plugin_Organizer&PO_disable_debug_msg=1&PO_nonce=".$this->nonce." --";
+				}
+				
 				?>
-				<div class="PO-debug-msg-container" style="<? print (isset($POAdminStyles['front_debug_style']))? $POAdminStyles['front_debug_style'] : 'clear:both;position: relative;z-index: 99999;background: #fff;width: 100%;border: 4px solid #000;padding: 10px;'; ?>">
-					<div style="font-weight: bold;margin-bottom:10px;">Plugin Organizer Debug Messages</div>
-					<hr>
-					<?php
-					if (isset($PluginOrganizerMU->adminMsg) && sizeof($PluginOrganizerMU->adminMsg) > 0) {
-						foreach(array_unique($PluginOrganizerMU->adminMsg) as $adminMsg) {
-							print '<div>'.$adminMsg.'</div>';
-						}
-						print '<hr>';
-					}
-					foreach($PluginOrganizerMU->debugMsg as $debugMsg) {
-						print '<div>'.$debugMsg.'</div>';
-					}
-					
-					if (current_user_can('activate_plugins')) {
-						?>
-						<a href="#" class="PO-disable-debug-msg">Disable Debug Messages</a>
-						<script type="text/javascript" language="javascript">
-							jQuery('.PO-disable-debug-msg').click(function() {
-								jQuery.post(encodeURI('<?php print admin_url('admin-ajax.php'); ?>?action=PO_disable_debug_msg'), {PO_nonce: '<?php print $this->nonce; ?>'}, function (result) {
-									jQuery('.PO-debug-msg-container').remove();
-								});
-								return false;
-							});
-						</script>
-						<?php
-					}
-					?>
-				</div>
+				<script type="text/javascript" language="javascript">
+					console.log('<?php print $debugMsg; ?>');
+				</script>
 				<?php
 			}
 		}
@@ -325,7 +245,7 @@ class PluginOrganizer {
 	function check_version() {
 		global $pagenow;
 		##Check version and activate if needed.
-		if (get_option("PO_version_num") != "10.2.2" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
+		if (get_option("PO_version_num") != "10.2.3" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
 			$this->activate();
 		}
 	}
@@ -573,6 +493,7 @@ class PluginOrganizer {
 		}
 		
 		##Cleanup from previous versions
+		delete_option('PO_admin_styles');
 		delete_option('PO_old_posts_moved');
 		delete_option('PO_old_urls_moved');
 		delete_option('PO_old_groups_moved');
@@ -640,8 +561,8 @@ class PluginOrganizer {
 			update_option('PO_disable_plugins_frontend', 1);
 		}
 		
-		if (get_option("PO_version_num") != "10.2.2") {
-			update_option("PO_version_num", "10.2.2");
+		if (get_option("PO_version_num") != "10.2.3") {
+			update_option("PO_version_num", "10.2.3");
 		}
 
 		if (get_option('PO_disable_plugins_by_role') == "") {
@@ -670,21 +591,6 @@ class PluginOrganizer {
 		
 		if (get_option('PO_mobile_user_agents') == '' || (is_array(get_option('PO_mobile_user_agents')) && sizeof(get_option('PO_mobile_user_agents')) == 0)) {
 			update_option('PO_mobile_user_agents', array('mobile', 'bolt', 'palm', 'series60', 'symbian', 'fennec', 'nokia', 'kindle', 'minimo', 'netfront', 'opera mini', 'opera mobi', 'semc-browser', 'skyfire', 'teashark', 'uzard', 'android', 'blackberry', 'iphone', 'ipad'));
-		}
-
-		if (is_array(get_option('PO_admin_styles'))) {
-			if (is_array(get_option('PO_custom_css'))) {
-				$adminStyles = get_option('PO_admin_styles');
-				$customStyles = array('front_debug_style'=>'', 'admin_debug_style'=>'');
-				if (isset($adminStyles['front_debug_style'])) {
-					$customStyles['front_debug_style'] = $adminStyles['front_debug_style'];
-				}
-				if (isset($adminStyles['admin_debug_style'])) {
-					$customStyles['admin_debug_style'] = $adminStyles['admin_debug_style'];
-				}
-				update_option('PO_custom_css', $customStyles);
-			}
-			delete_option('PO_admin_styles');
 		}
 
 		//Update dir_count on all saved posts
@@ -897,10 +803,6 @@ class PluginOrganizer {
 		$activeSitePlugins = get_site_option('active_sitewide_plugins', array());
 		$activePlugins = get_option("active_plugins");
 		$noticesArray = array();
-		if (in_array('wp-spamshield/wp-spamshield.php', $activePlugins) || array_key_exists('wp-spamshield/wp-spamshield.php', $activeSitePlugins)) {
-			$noticesArray[] = "<strong>WARNING:</strong> You are currently running WP Spamshield. This plugin was removed from the wordpress plugin repository for containing malicious code that targeted other developers. You should immediately remove this plugin. It has attempted to modify the settings for Plugin Organizer as well as other plugins. Because of this malicious activity you can't run Plugin Organizer and WP Spamshield together.";
-		}
-
 		if (in_array('woocommerce-smart-coupons/woocommerce-smart-coupons.php', $activePlugins) || array_key_exists('woocommerce-smart-coupons/woocommerce-smart-coupons.php', $activeSitePlugins)) {
 			$noticesArray[] = "<strong>WARNING:</strong> You are currently running Woocommerce Smart Coupons. To run this plugin you must go to the <a href=\"".get_admin_url()."admin.php?page=PO_group_and_order_plugins\">Group and Order plugins</a> page and set Woocommerce Smart Coupons to load before Woocommerce or it's functionality will not be available.";
 		}

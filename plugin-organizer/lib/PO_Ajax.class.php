@@ -718,15 +718,6 @@ class PO_Ajax {
 		die();
 	}
 
-	function disable_debug_msg() {
-		if (!current_user_can('activate_plugins') || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
-			print "You dont have permissions to access this page.";
-			die();
-		}
-		update_option('PO_display_debug_msg', 0);
-		die();
-	}
-	
 	function submit_custom_css_settings() {
 		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			print "You dont have permissions to access this page.";
@@ -922,10 +913,10 @@ class PO_Ajax {
 		##Disable By Role
 		if ($this->postedData['PO_display_debug_msg'] == "true") {
 			update_option("PO_display_debug_msg", 1);
-			$jsonResponse['alerts'][] = "Debug messages will be dispayed.";
+			$jsonResponse['alerts'][] = "Debug messages will be dispayed in your browsers console.";
 		} else {
 			update_option("PO_display_debug_msg", 0);
-			$jsonResponse['alerts'][] = "Debug messages will NOT be dispayed.";
+			$jsonResponse['alerts'][] = "Debug messages will NOT be dispayed in your browsers console.";
 		}
 		
 		$jsonResponse['success'] = 1;

@@ -8,11 +8,10 @@
 		<div id="PO-tab-menu-container">
 			<ul id="PO-tab-menu">
 				<li id="PO-tab-1" class="ui-tabs-active ui-state-active"><a href="#PO-tab-1-content">General Settings</a></li>
-				<li id="PO-tab-2"><a href="#PO-tab-2-content">Custom CSS</a></li>
-				<li id="PO-tab-3"><a href="#PO-tab-3-content">Recreate Permalinks</a></li>
-				<li id="PO-tab-4"><a href="#PO-tab-4-content">Mobile User Agents</a></li>
-				<li id="PO-tab-5"><a href="#PO-tab-5-content">Manage MU plugin file</a></li>
-				<li id="PO-tab-6"><a href="#PO-tab-6-content">Plugin Search</a></li>
+				<li id="PO-tab-2"><a href="#PO-tab-2-content">Recreate Permalinks</a></li>
+				<li id="PO-tab-3"><a href="#PO-tab-3-content">Mobile User Agents</a></li>
+				<li id="PO-tab-4"><a href="#PO-tab-4-content">Manage MU plugin file</a></li>
+				<li id="PO-tab-5"><a href="#PO-tab-5-content">Plugin Search</a></li>
 			</ul>
 			<div id="PO-tab-1-content" class="PO-tab-content" style="display: block;">
 
@@ -41,7 +40,7 @@
 							</div>
 							<h4>
 							  <label for="PO_ignore_protocol">Ignore URL Protocol</label>
-							  <span class="PO-help-dialog fa fa-question-circle" title="__ts__Ignore URL Protocol__te____rs__This allows you to ignore the protocol (http, https) of a URL when trying to match it in the database at page load time.  With this turned on <?php print home_url($path='/', $scheme='https'); ?>page/ will have the same plugins loaded as <?php print home_url($path='/'); ?>page/.  If it is turned off they can be set seperately using plugin filters.__re__"></span>
+							  <span class="PO-help-dialog fa fa-question-circle" title="__ts__Ignore URL Protocol__te____rs__This allows you to ignore the protocol (http, https) of a URL when trying to match it in the database at page load time.  With this turned on <?php print home_url($path='/', $scheme='https'); ?>page/ will have the same plugins loaded as <?php print home_url($path='/'); ?>page/.  If it is turned off they can be set separately using plugin filters.__re__"></span>
 							</h4>
 						</div>
 
@@ -142,7 +141,7 @@
 							</div>
 							<h4>
 							  <label for="PO_display_debug_msg">Display Debug Messages</label>
-							  <span class="PO-help-dialog fa fa-question-circle" title="__ts__Display Debug Messages__te____rs__Turning this option on will display debug messages about how plugins are being disabled on the current page you are viewing.__re____rs__The messages will either be displayed in an admin notice or at the bottom of the page.__re____rs__Only users with the roles you have selected will see these messages.__re__"></span>
+							  <span class="PO-help-dialog fa fa-question-circle" title="__ts__Display Debug Messages__te____rs__Turning this option on will display debug messages about how plugins are being disabled/enabled on the current page you are viewing.__re____rs__The messages will be displayed in your browsers developer console.__re____rs__Only users with the roles you have selected in the Debugging Roles set of check boxes will see these messages.__re__"></span>
 							</h4>
 						</div>
 
@@ -254,39 +253,7 @@
 				
 			</div>
 			
-			<?php
-			$POCustomStyles = get_option('PO_custom_css');
-			if (!is_array($POCustomStyles)) {
-				$POCustomStyles = array('front_debug_style'=>'', 'admin_debug_style'=>'');
-			}
-			?>
-
 			<div id="PO-tab-2-content" class="PO-tab-content">
-				<div id="PO-manage-css-div" style="width: 98%">
-				  <div class="PO-loading-container fa fa-spinner fa-pulse"></div>
-				  <div class="inside">
-					<h4 class="PO-settings-section-title">Debug Container CSS</h4>
-					<div class="PO-settings-left-column">
-					  Frontend:
-					</div>
-					<div class="PO-settings-right-column">
-					  <input type="text" id="PO-front-debug-style" value="<?php print ($POCustomStyles['front_debug_style'] != '')? $POCustomStyles['front_debug_style'] : 'position: relative;z-index: 99999;background: #fff;width: 100%;border: 4px solid #000;padding: 10px;'; ?>" />
-					</div>
-					<div style="clear: both;"></div>
-					<hr>
-					<div class="PO-settings-left-column">
-					  Backend:
-					</div>
-					<div class="PO-settings-right-column">
-					  <input type="text" id="PO-admin-debug-style" value="<?php print ($POCustomStyles['admin_debug_style'] != '')? $POCustomStyles['admin_debug_style'] : 'padding: 20px;'; ?>" />
-					</div>
-					<div style="clear: both;"></div>
-					<hr>
-					<input type=button name="submit_custom_css_settings" value="Submit" onmousedown="PO_submit_custom_css_settings();" class="button button-primary">
-				  </div>
-				</div>
-			</div>
-			<div id="PO-tab-3-content" class="PO-tab-content">
 				<div id="PO-redo-permalinks-div" style="width: 98%">
 				  <div class="PO-loading-container fa fa-spinner fa-pulse"></div>
 				  <div class="inside">
@@ -296,13 +263,13 @@
 					<span class="PO-help-dialog fa fa-question-circle" title="__ts__New site address__te____rs__Enter the new address of your site.__re____rs__A regular expression match will be done to replace the value you enter in the Old site address text field with this value.__re____rs__It should be entered in this format <?php print get_site_url(); ?>__re__"></span><br />
 					<br />
 					If you are changing your site address you can enter your new and old addresses to update your plugin filters.  If you don't enter the new and old site addresses your plugin filters will not be updated.  All other post types will be updated by getting the new permalink from wordpress.<br />
-					WARNING:  This does a regular expression search on your permalinks for the string you enter in the old address box and replaces it with the string you put in the new addres box so be careful what you enter.  This can't be undone.<br />
+					WARNING:  This does a regular expression search on your permalinks for the string you enter in the old address box and replaces it with the string you put in the new address box so be careful what you enter.  This can't be undone.<br />
 					<input type="button" name="redo-permalinks" value="Recreate Permalinks" onmousedown="PO_submit_redo_permalinks();" class="button button-primary">
 				  </div>
 				</div>
 			</div>
 
-			<div id="PO-tab-4-content" class="PO-tab-content">
+			<div id="PO-tab-3-content" class="PO-tab-content">
 				<div id="PO-browser-string-div" style="width: 98%">
 				  <div class="PO-loading-container fa fa-spinner fa-pulse"></div>
 				  <div class="inside">
@@ -326,7 +293,7 @@
 				</div>
 			</div>
 
-			<div id="PO-tab-5-content" class="PO-tab-content">
+			<div id="PO-tab-4-content" class="PO-tab-content">
 				<div id="PO-manage-mu-div" style="width: 98%">
 				  <div class="PO-loading-container fa fa-spinner fa-pulse"></div>
 				  <div class="inside">
@@ -336,7 +303,7 @@
 				</div>
 			</div>
 
-			<div id="PO-tab-6-content" class="PO-tab-content">
+			<div id="PO-tab-5-content" class="PO-tab-content">
 				<div id="PO-plugin-search-div" style="width: 98%">
 				  <div class="PO-loading-container fa fa-spinner fa-pulse"></div>
 				  <div class="inside">

@@ -78,15 +78,6 @@ if ( current_user_can( 'activate_plugins' ) ) {
 			}
 		}
 
-		function PO_submit_custom_css_settings() {
-			var postVars = {
-				'PO_front_debug_style': jQuery('#PO-front-debug-style').val(),
-				'PO_admin_debug_style': jQuery('#PO-admin-debug-style').val(),
-				'PO_nonce': '<?php print $this->PO->nonce; ?>'
-			};
-			PO_submit_ajax('PO_submit_custom_css_settings', postVars, '#PO-manage-css-div', function(responseObj){});
-		}
-
 		function PO_reorder_post_types(responseObj) {
 			jQuery(jQuery('#PO-custom-post-type-container .PO-post-type-container .PO-post-type-row').get().reverse()).each(function() {
 				if (jQuery(this).find('.PO-cutom-post-type').is(':checked')) {

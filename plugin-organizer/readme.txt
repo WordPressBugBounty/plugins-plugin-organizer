@@ -3,8 +3,8 @@ Contributors: foomagoo
 Donate link: https://www.sterup.com/donate/
 Tags: plugin organizer, plugin load order, disable plugins by post or page, turn off plugins for post or page
 Requires at least: 4.6.0
-Tested up to: 6.7.2
-Stable tag: 10.2.2
+Tested up to: 6.8
+Stable tag: 10.2.3
 License: GPLv2
 
 Change plugin order and selectively enable/disable plugins on each post/page.
@@ -119,6 +119,12 @@ https://wordpress.org/support/topic/conflict-with-contact-form-7-4/
 6. Page edit screen.
 
 == Changelog ==
+
+= 10.2.3 =
+Removed all references to WP Spamshield since the plugin no longer exists and is no longer a threat to Plugin Organizer users
+Fixed a few typos in the settings help text
+Moved debug messages to the browser console to prevent display problems
+Removed custom CSS settings because they are no longer needed with console debug messages
 
 = 10.2.2 =
 Fixing plugin update, activation, and deactivation issue that causes plugin order to be reset.
@@ -310,18 +316,13 @@ Fixed query in MU plugin for affect children.  Removed quotes around column name
 Fixed problem with query that selects the base settings for a post in the post metabox.
 Fixed a problem where logged in users where being given the logged out user set of plugins.
 
-= 9.0.1 =
-Fixed PHP warning when array of enabled roles wasn't set on activation
-
-= 9.0 =
-Added ability to disable plugins by logged in status and role.
-Changed the look of all jquery UI pop ups.
-Changed the loading spinner to use fontawesome spinner.
-
 = Full Changelog =
 https://www.sterup.com/wordpress-plugins/plugin-organizer/changelog/
 
 == Upgrade Notice ==
 
-= 10.2.2 =
-Fixing plugin update, activation, and deactivation issue that causes plugin order to be reset.
+= 10.2.3 =
+Removed all references to WP Spamshield since the plugin no longer exists and is no longer a threat to Plugin Organizer users
+Fixed a few typos in the settings help text
+Moved debug messages to the browser console to prevent display problems
+Removed custom CSS settings because they are no longer needed with console debug messages
