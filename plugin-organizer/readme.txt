@@ -3,8 +3,8 @@ Contributors: foomagoo
 Donate link: https://www.sterup.com/donate/
 Tags: plugin organizer, plugin load order, disable plugins by post or page, turn off plugins for post or page
 Requires at least: 4.6.0
-Tested up to: 6.8
-Stable tag: 10.2.3
+Tested up to: 6.9
+Stable tag: 10.2.4
 License: GPLv2
 
 Change plugin order and selectively enable/disable plugins on each post/page.
@@ -119,6 +119,9 @@ https://wordpress.org/support/topic/conflict-with-contact-form-7-4/
 6. Page edit screen.
 
 == Changelog ==
+
+= 10.2.4 =
+Fixed possible SQL injection on the plugin search page.
 
 = 10.2.3 =
 Removed all references to WP Spamshield since the plugin no longer exists and is no longer a threat to Plugin Organizer users
@@ -321,8 +324,5 @@ https://www.sterup.com/wordpress-plugins/plugin-organizer/changelog/
 
 == Upgrade Notice ==
 
-= 10.2.3 =
-Removed all references to WP Spamshield since the plugin no longer exists and is no longer a threat to Plugin Organizer users
-Fixed a few typos in the settings help text
-Moved debug messages to the browser console to prevent display problems
-Removed custom CSS settings because they are no longer needed with console debug messages
+= 10.2.4 =
+Fixed possible SQL injection on the plugin search page.

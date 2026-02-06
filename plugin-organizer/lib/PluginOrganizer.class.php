@@ -245,7 +245,7 @@ class PluginOrganizer {
 	function check_version() {
 		global $pagenow;
 		##Check version and activate if needed.
-		if (get_option("PO_version_num") != "10.2.3" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
+		if (get_option("PO_version_num") != "10.2.4" && !in_array($pagenow, array("plugins.php", "update-core.php", "update.php"))) {
 			$this->activate();
 		}
 	}
@@ -561,8 +561,8 @@ class PluginOrganizer {
 			update_option('PO_disable_plugins_frontend', 1);
 		}
 		
-		if (get_option("PO_version_num") != "10.2.3") {
-			update_option("PO_version_num", "10.2.3");
+		if (get_option("PO_version_num") != "10.2.4") {
+			update_option("PO_version_num", "10.2.4");
 		}
 
 		if (get_option('PO_disable_plugins_by_role') == "") {
