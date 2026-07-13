@@ -516,7 +516,7 @@ class PO_Ajax {
 		$postIDsCount = $wpdb->get_var($postIDsCountQuery);
 		
 		$postIDsQuery = "SELECT post_id FROM ".$wpdb->prefix."po_plugins WHERE post_type != 'plugin_filter' AND post_id != 0 AND permalink NOT LIKE [ESC_LIKE] GROUP BY post_id";
-		$postIDsQuery = preg_replace('/\[ESC_LIKE\]/', "'".esc_sql($newSiteAddress)."%'", $postIDsQuery);
+		$postIDsQuery = str_replace('[ESC_LIKE]', "'".esc_sql($newSiteAddress)."%'", $postIDsQuery);
 		
 		$postIDs = $wpdb->get_results($postIDsQuery, ARRAY_A);
 		foreach ($postIDs as $postID) {
@@ -954,6 +954,11 @@ class PO_Ajax {
 	
 	function perform_plugin_search() {
 		global $wpdb;
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+			print "You dont have permissions to access this page.";
+			die();
+		}
+		
 		$returnArray = array();
 		$availableRoles = array('_');
 		if (isset($this->postedData['PO_searchable_roles']) && is_array($this->postedData['PO_searchable_roles']) && count($this->postedData['PO_searchable_roles']) > 0) {
@@ -982,7 +987,7 @@ class PO_Ajax {
 		}
 		
 		$sql = $this->PO->prepare_in("SELECT COUNT(*) FROM ".$wpdb->prefix."po_plugins WHERE post_type='global_plugin_lists' AND post_id=0 AND user_role IN ([R_IN]) AND (disabled_plugins LIKE [ESC_LIKE] OR disabled_mobile_plugins LIKE [ESC_LIKE]".$groupSearch.")", $availableRoles, '[R_IN]');
-		$sql = preg_replace('/\[ESC_LIKE\]/', "'%".esc_sql($postedPluginPath)."%'", $sql);
+		$sql = str_replace('[ESC_LIKE]', "'%".esc_sql($postedPluginPath)."%'", $sql);
 		$pluginSearchResult = $wpdb->get_var($sql);
 
 		if ($pluginSearchResult > 0) {
@@ -990,7 +995,7 @@ class PO_Ajax {
 		}
 		
 		$sql = $this->PO->prepare_in("SELECT COUNT(*) FROM ".$wpdb->prefix."po_plugins WHERE post_type='search_plugin_lists' AND post_id=0 AND user_role IN ([R_IN]) AND (disabled_plugins LIKE [ESC_LIKE] OR disabled_mobile_plugins LIKE [ESC_LIKE]".$groupSearch.")", $availableRoles, '[R_IN]');
-		$sql = preg_replace('/\[ESC_LIKE\]/', "'%".esc_sql($postedPluginPath)."%'", $sql);
+		$sql = str_replace('[ESC_LIKE]', "'%".esc_sql($postedPluginPath)."%'", $sql);
 		$pluginSearchResult = $wpdb->get_var($sql);
 
 		if ($pluginSearchResult > 0) {
@@ -998,7 +1003,7 @@ class PO_Ajax {
 		}
 
 		$sql = $this->PO->prepare_in("SELECT post_id FROM ".$wpdb->prefix."po_plugins WHERE post_id!=0 AND user_role IN ([R_IN]) AND (disabled_plugins LIKE [ESC_LIKE] OR disabled_mobile_plugins LIKE [ESC_LIKE]".$groupSearch.") GROUP BY post_id", $availableRoles, '[R_IN]');
-		$sql = preg_replace('/\[ESC_LIKE\]/', "'%".esc_sql($postedPluginPath)."%'", $sql);
+		$sql = str_replace('[ESC_LIKE]', "'%".esc_sql($postedPluginPath)."%'", $sql);
 		$pluginSearchResult = $wpdb->get_var($sql);
 		$pluginSearchResult = $wpdb->get_results($sql, ARRAY_A);
 
