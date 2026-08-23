@@ -11,7 +11,7 @@ class PO_Ajax {
 	}
 
 	function save_order() {
-		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+		if (!current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			print "You dont have permissions to access this page.";
 			die();
 		}
@@ -257,7 +257,7 @@ class PO_Ajax {
 
 	function save_search_plugins() {
 		global $wpdb;
-		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+		if (!current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			print "You dont have permissions to access this page.";
 			die();
 		}
@@ -288,7 +288,7 @@ class PO_Ajax {
 		$availableRoles = $this->PO->get_available_roles();
 			
 		$returnVals = array('success'=>0, 'msg'=>'', 'total'=>0, 'offset'=>0);
-		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+		if (!current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			$returnVals['msg'] = "You dont have permissions to access this page.";
 			print json_encode($returnVals);
 			die();
@@ -419,7 +419,7 @@ class PO_Ajax {
 
 	function get_pt_plugins() {
 		global $wpdb;
-		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			print "You dont have permissions to access this page.";
 			die();
 		}
@@ -453,7 +453,7 @@ class PO_Ajax {
 
 	function reset_pt_settings() {
 		global $wpdb;
-		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
 			print "You dont have permissions to access this page.";
 			die();
 		}
@@ -491,6 +491,12 @@ class PO_Ajax {
 	
 	function redo_permalinks() {
 		global $wpdb;
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+			print "You dont have permissions to access this page.";
+			die();
+		}
+		
+		
 		if (!empty($this->postedData['old_site_address'])) {
 			$oldSiteAddress = preg_quote($this->PO->fix_trailng_slash(sanitize_text_field($this->postedData['old_site_address'])), "/");
 		} else {
@@ -635,6 +641,11 @@ class PO_Ajax {
 	}
 
 	function reset_plugin_order() {
+		if ( !$this->PO->verify_nonce($this->postedData['PO_nonce']) || !current_user_can('activate_plugins')) {
+			print "You dont have permissions to access this page.";
+			die();
+		}
+		
 		$jsonResponse = array('success'=>0, 'alerts'=>array());
 		$activePlugins = get_option("active_plugins");
 		usort($activePlugins, 'strcasecmp');
@@ -925,6 +936,11 @@ class PO_Ajax {
 	}
 
 	function get_plugin_group_container() {
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+			print "You dont have permissions to access this page.";
+			die();
+		}
+		
 		$groups = get_posts(array('post_type'=>'plugin_group', 'posts_per_page'=>-1));
 		$assignedGroups = "";
 		$postedPluginPath = sanitize_text_field($this->postedData['PO_plugin_path']);
@@ -943,6 +959,11 @@ class PO_Ajax {
 	}
 
 	function get_group_list() {
+		if ( !current_user_can( 'activate_plugins' ) || !$this->PO->verify_nonce($this->postedData['PO_nonce'])) {
+			print "You dont have permissions to access this page.";
+			die();
+		}
+		
 		$groups = get_posts(array('post_type'=>'plugin_group', 'posts_per_page'=>-1));
 		$groupNames = array();
 		foreach($groups as $group) {

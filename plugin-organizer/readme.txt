@@ -3,8 +3,8 @@ Contributors: foomagoo
 Donate link: https://www.sterup.com/donate/
 Tags: plugin organizer, plugin load order, disable plugins by post or page, turn off plugins for post or page
 Requires at least: 6.0
-Tested up to: 7.0.1
-Stable tag: 10.2.5
+Tested up to: 7.1
+Stable tag: 10.2.6
 License: GPLv2
 
 Change plugin order and selectively enable/disable plugins on each post/page.
@@ -119,6 +119,9 @@ https://wordpress.org/support/topic/conflict-with-contact-form-7-4/
 6. Page edit screen.
 
 == Changelog ==
+
+= 10.2.6 =
+Fixed missing nonce and capability validation for ajax functions.
 
 = 10.2.5 =
 Fixed possible SQL injection on the plugin search page.
@@ -327,5 +330,5 @@ https://www.sterup.com/wordpress-plugins/plugin-organizer/changelog/
 
 == Upgrade Notice ==
 
-= 10.2.5 =
-Fixed possible SQL injection on the plugin search page.
+= 10.2.6 =
+Fixed missing nonce and capability validation for ajax functions.
